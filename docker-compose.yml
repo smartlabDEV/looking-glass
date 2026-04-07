@@ -6,3 +6,21 @@ services:
     ports:
       - "8000:8000"
     restart: unless-stopped
+
+  exabgp:
+    image: pierky/exabgp:4.2.22
+    container_name: exabgp
+    restart: unless-stopped
+    network_mode: host           # Nødvendig for iBGP mot NE8000 management-nett.
+                                 # For produksjon: bruk et dedikert Docker bridge-nett
+                                 # med kun port 179/TCP åpent mot NE8000.
+    volumes:
+      - ./ml/exabgp/exabgp.conf:/etc/exabgp/exabgp.conf:ro
+      - ./ml:/app/ml:ro
+    environment:
+      # TODO: Fyll inn dine faktiske next-hop adresser og sett EXABGP_DEBUG=true for feilsøking
+      NIX_NEXT_HOP: ""        # f.eks. 193.156.x.x — din NIX-peer next-hop
+      TELIA_NEXT_HOP: ""      # f.eks. 80.91.x.x  — din Telia-transit next-hop
+      EXABGP_DEBUG: "false"
+    command: ["exabgp", "/etc/exabgp/exabgp.conf"]
+

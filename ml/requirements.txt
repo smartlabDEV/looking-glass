@@ -1,0 +1,18 @@
+# RL-agent (PPO)
+stable-baselines3==2.3.0
+gymnasium==0.29.1
+torch==2.6.0               # PyTorch (CPU holder fint!)
+
+# SmokePing integrasjon
+rrdtool==0.1.1
+
+# Data
+numpy==1.26.4
+pandas==2.2.0
+joblib==1.3.2
+
+# Anomali-deteksjon (bonus)
+scikit-learn==1.4.0
+
+# Database (async, for features/extractor.py)
+asyncpg==0.29.0
