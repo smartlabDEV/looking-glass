@@ -6,3 +6,17 @@ services:
     ports:
       - "8000:8000"
     restart: unless-stopped
+
+  exabgp:
+    image: pierky/exabgp:4.2.22
+    container_name: exabgp
+    restart: unless-stopped
+    network_mode: host           # Må ha tilgang til NE8000 management-nett
+    volumes:
+      - ./ml/exabgp/exabgp.conf:/etc/exabgp/exabgp.conf:ro
+      - ./ml:/app/ml:ro
+    environment:
+      # TODO: Sett EXABGP_DEBUG=true for feilsøking
+      EXABGP_DEBUG: "false"
+    command: ["exabgp", "/etc/exabgp/exabgp.conf"]
+
