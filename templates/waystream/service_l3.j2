@@ -1,0 +1,21 @@
+# Waystream iBOS — L3 service konfig
+# Genereres av BECS via ZeroTouch/Becks
+#
+# Forventede variabler:
+#   interface      - interface navn (f.eks. ge-0/0/1)
+#   description    - service-beskrivelse
+#   ip_address     - IP-adresse for interfacet
+#   subnet_mask    - nettmaske (f.eks. 255.255.255.0)
+#   vlan_id        - (valgfri) VLAN-ID for dot1q encapsulation
+#   vrf            - (valgfri) VRF-navn, standard 'internet'
+#
+# TODO: Verifiser eksakt syntax mot din Waystream iBOS-versjon!
+
+interface {{ interface }}
+ description {{ description }}
+ ip address {{ ip_address }} {{ subnet_mask }}
+{% if vlan_id is defined %}
+ encapsulation dot1q {{ vlan_id }}
+{% endif %}
+ ip vrf forwarding {{ vrf | default('internet') }}
+!

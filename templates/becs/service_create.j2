@@ -1,0 +1,24 @@
+{# BECS REST API — Opprett ny L3-service #}
+{# POST /api/v1/services                 #}
+{#                                       #}
+{# Forventede variabler:                 #}
+{#   customer_id      - BECS kunde-ID    #}
+{#   service_type     - (valgfri) service-type, standard 'l3_internet' #}
+{#   device_hostname  - hostname til Waystream-enhet i BECS            #}
+{#   interface        - interface navn på enheten                      #}
+{#   vlan_id          - VLAN-ID (heltall)                              #}
+{#   speed_down       - nedlastingshastighet i Mbit/s (heltall)        #}
+{#   speed_up         - opplastingshastighet i Mbit/s (heltall)        #}
+{#   vrf              - (valgfri) VRF-navn, standard 'internet'        #}
+{#   description      - (valgfri) beskrivelse                         #}
+{
+  "customer_id": "{{ customer_id }}",
+  "service_type": "{{ service_type | default('l3_internet') }}",
+  "device": "{{ device_hostname }}",
+  "interface": "{{ interface }}",
+  "vlan": {{ vlan_id }},
+  "speed_down_mbit": {{ speed_down }},
+  "speed_up_mbit": {{ speed_up }},
+  "vrf": "{{ vrf | default('internet') }}",
+  "description": "{{ description | default('Looking Glass managed service') }}"
+}

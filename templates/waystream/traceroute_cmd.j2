@@ -1,0 +1,9 @@
+{# Waystream iBOS — traceroute kommando #}
+{# Brukes av Nornir tasks for å bygge riktig kommando #}
+{#                                                     #}
+{# Forventede variabler:                              #}
+{#   target      - destinasjons-IP eller hostname      #}
+{#   source_ip   - (valgfri) kilde-IP på routeren      #}
+{#                                                     #}
+{# TODO: Verifiser eksakt syntax på din Waystream iBOS! #}
+traceroute {{ target }}{% if source_ip is defined %} source {{ source_ip }}{% endif %}

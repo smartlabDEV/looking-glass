@@ -1,0 +1,31 @@
+# Huawei VRP — Legg til ny BGP peer (IX-peering / transit)
+# Eksempel: Ny NIX-peering for Steam/Valve
+#
+# Forventede variabler:
+#   local_asn          - lokalt AS-nummer
+#   peer_ip            - IP til BGP-peer
+#   peer_asn           - AS-nummer til peer
+#   peer_description   - beskrivelse (f.eks. "NIX-Steam-Valve")
+#   peer_password      - (valgfri) MD5-passord for peer-sesjonen
+#   prefix_list_in     - (valgfri) route-policy for import
+#   prefix_list_out    - (valgfri) route-policy for eksport
+#   is_ix_peer         - true/false — sett next-hop-local for IX-peering
+
+bgp {{ local_asn }}
+ peer {{ peer_ip }} as-number {{ peer_asn }}
+ peer {{ peer_ip }} description {{ peer_description }}
+{% if peer_password is defined %}
+ peer {{ peer_ip }} password cipher {{ peer_password }}
+{% endif %}
+ #
+ ipv4-family unicast
+  peer {{ peer_ip }} enable
+{% if prefix_list_in is defined %}
+  peer {{ peer_ip }} route-policy {{ prefix_list_in }} import
+{% endif %}
+{% if prefix_list_out is defined %}
+  peer {{ peer_ip }} route-policy {{ prefix_list_out }} export
+{% endif %}
+{% if is_ix_peer %}
+  peer {{ peer_ip }} next-hop-local
+{% endif %}

@@ -1,0 +1,30 @@
+# Nornir groups.yml — Generert fra BECS-data
+# Bruk: jinja2 groups.j2 vars.json > inventory/groups.yml
+#
+# Forventede variabler:
+#   huawei_username      - SSH-brukernavn for Huawei-routere
+#   huawei_password      - SSH-passord for Huawei-routere
+#   waystream_username   - SSH-brukernavn for Waystream-routere
+#   waystream_password   - SSH-passord for Waystream-routere
+
+groups:
+  huawei_core:
+    username: "{{ huawei_username }}"
+    password: "{{ huawei_password }}"
+    port: 22
+    data:
+      commands: huawei
+
+  huawei_dist:
+    username: "{{ huawei_username }}"
+    password: "{{ huawei_password }}"
+    port: 22
+    data:
+      commands: huawei
+
+  waystream_access:
+    username: "{{ waystream_username }}"
+    password: "{{ waystream_password }}"
+    port: 22
+    data:
+      commands: waystream_ibos

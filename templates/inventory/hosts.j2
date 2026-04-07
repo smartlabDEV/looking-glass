@@ -1,0 +1,26 @@
+# Generert fra BECS-data
+# Bruk: jinja2 hosts.j2 becs_devices.json > inventory/hosts.yml
+#
+# Forventede variabler:
+#   devices      - liste med device-objekter fra BECS
+#   device.hostname   - unikt navn på enheten
+#   device.mgmt_ip    - management IP-adresse
+#   device.platform   - nornir platform (huawei / waystream_ibos)
+#   device.vendor     - huawei / waystream
+#   device.role       - core / dist / access
+#   device.site       - oslo / bergen / etc
+#   device.becs_id    - BECS intern device-ID
+
+hosts:
+{% for device in devices %}
+  {{ device.hostname }}:
+    hostname: {{ device.mgmt_ip }}
+    platform: {{ device.platform }}  {# huawei eller waystream_ibos #}
+    groups:
+      - {{ device.vendor }}_{{ device.role }}
+    data:
+      role: {{ device.role }}         {# core / dist / access #}
+      site: {{ device.site }}         {# oslo / bergen etc #}
+      vendor: {{ device.vendor }}     {# huawei / waystream #}
+      becs_id: {{ device.becs_id }}   {# BECS device ID #}
+{% endfor %}
