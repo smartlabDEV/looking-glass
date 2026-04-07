@@ -1,0 +1,28 @@
+{# BECS REST API — Endre eksisterende L3-service #}
+{# PUT /api/v1/services/{{ service_id }}          #}
+{#                                                #}
+{# Forventede variabler:                          #}
+{#   service_id       - BECS service-ID (i URL)   #}
+{#   speed_down       - (valgfri) ny nedlastingshastighet i Mbit/s  #}
+{#   speed_up         - (valgfri) ny opplastingshastighet i Mbit/s  #}
+{#   description      - (valgfri) ny beskrivelse                    #}
+{#   vrf              - (valgfri) VRF-navn                          #}
+{#   enabled          - (valgfri) true/false — aktiver/deaktiver    #}
+{
+  "service_id": "{{ service_id }}"
+{% if speed_down is defined %}
+  ,"speed_down_mbit": {{ speed_down }}
+{% endif %}
+{% if speed_up is defined %}
+  ,"speed_up_mbit": {{ speed_up }}
+{% endif %}
+{% if description is defined %}
+  ,"description": "{{ description }}"
+{% endif %}
+{% if vrf is defined %}
+  ,"vrf": "{{ vrf }}"
+{% endif %}
+{% if enabled is defined %}
+  ,"enabled": {{ enabled | lower }}
+{% endif %}
+}

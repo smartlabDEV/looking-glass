@@ -1,0 +1,24 @@
+# Waystream iBOS — VLAN konfig
+# Konfigurer VLAN på Waystream 8024 L3 access-switch
+#
+# Forventede variabler:
+#   vlan_id        - VLAN-ID (f.eks. 100)
+#   vlan_name      - VLAN-navn/beskrivelse
+#   interface      - (valgfri) trunk-interface å assosiere VLAN med
+#   tagged         - (valgfri) true = tagged (trunk), false = untagged (access)
+#
+# TODO: Verifiser eksakt syntax mot din Waystream iBOS-versjon!
+
+vlan {{ vlan_id }}
+ name {{ vlan_name }}
+{% if interface is defined %}
+ interface {{ interface }}
+{% if tagged | default(true) %}
+  mode trunk
+  vlan {{ vlan_id }} tagged
+{% else %}
+  mode access
+  vlan {{ vlan_id }} untagged
+{% endif %}
+{% endif %}
+!

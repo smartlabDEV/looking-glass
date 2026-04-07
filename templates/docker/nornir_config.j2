@@ -1,0 +1,22 @@
+# Nornir konfig — Generert
+# Bruk: jinja2 nornir_config.j2 vars.json > nornir_config.yml
+#
+# Forventede variabler:
+#   inventory_path   - sti til inventory-mappe (f.eks. /app/inventory)
+#   num_workers      - (valgfri) antall parallelle workers, standard 10
+#   log_level        - (valgfri) loggnivå (DEBUG/INFO/WARNING), standard INFO
+
+inventory:
+  plugin: SimpleInventory
+  options:
+    host_file: "{{ inventory_path }}/hosts.yml"
+    group_file: "{{ inventory_path }}/groups.yml"
+
+runner:
+  plugin: threaded
+  options:
+    num_workers: {{ num_workers | default(10) }}
+
+logging:
+  enabled: true
+  level: {{ log_level | default('INFO') }}

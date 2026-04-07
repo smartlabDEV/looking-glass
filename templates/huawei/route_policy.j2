@@ -1,0 +1,28 @@
+# Huawei VRP — Route-policy
+# Påvirker innkommende/utgående BGP-ruter
+#
+# Forventede variabler:
+#   policy_name        - navn på route-policy
+#   node_id            - node-nummer i sekvensen (f.eks. 10)
+#   match_prefix_list  - (valgfri) ip-prefix list å matche mot
+#   match_as_path      - (valgfri) as-path-filter å matche mot
+#   set_local_pref     - (valgfri) sett local-preference verdi
+#   set_med            - (valgfri) sett MED/cost verdi
+#   set_community      - (valgfri) sett community-verdi
+
+route-policy {{ policy_name }} permit node {{ node_id }}
+{% if match_prefix_list is defined %}
+ if-match ip-prefix {{ match_prefix_list }}
+{% endif %}
+{% if match_as_path is defined %}
+ if-match as-path-filter {{ match_as_path }}
+{% endif %}
+{% if set_local_pref is defined %}
+ apply local-preference {{ set_local_pref }}
+{% endif %}
+{% if set_med is defined %}
+ apply cost {{ set_med }}
+{% endif %}
+{% if set_community is defined %}
+ apply community {{ set_community }}
+{% endif %}

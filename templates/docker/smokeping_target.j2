@@ -1,0 +1,18 @@
+# SmokePing target — Generert for Looking Glass
+# Legg til i /etc/smokeping/config.d/targets
+#
+# Forventede variabler:
+#   target_name      - unikt target-navn (uten mellomrom)
+#   target_label     - visningsnavn i SmokePing GUI
+#   target_location  - stedsangivelse (f.eks. Oslo)
+#   target_ip        - IP-adresse eller hostname som pinges
+#   alerts           - (valgfri) komma-separert liste med SmokePing-alerts
+
+++ {{ target_name }}
+menu = {{ target_label }}
+title = {{ target_label }} ({{ target_location }})
+host = {{ target_ip }}
+probe = FPing
+{% if alerts is defined %}
+alerts = {{ alerts }}
+{% endif %}

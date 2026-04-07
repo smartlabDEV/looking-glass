@@ -1,0 +1,14 @@
+# Huawei VRP — BGP Community konfig
+# Brukes for å påvirke ruting-beslutninger (local-pref, community-tagging)
+#
+# Forventede variabler:
+#   policy_name        - navn på route-policy
+#   node_id            - node-nummer i policy-sekvensen (f.eks. 10)
+#   community_filter   - navn på community-filter som skal matche
+#   local_preference   - local-preference verdi (f.eks. 200)
+#   community_value    - community som skal settes (f.eks. "65001:100")
+
+route-policy {{ policy_name }} permit node {{ node_id }}
+ if-match community-filter {{ community_filter }}
+ apply local-preference {{ local_preference }}
+ apply community {{ community_value }}

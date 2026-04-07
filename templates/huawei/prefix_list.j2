@@ -1,0 +1,15 @@
+# Huawei VRP — Prefix-liste
+# Eksempel: Tillat kun spesifikke prefixer fra IX-peer
+#
+# Forventede variabler:
+#   list_name          - navn på prefix-listen (f.eks. "NIX-STEAM-IN")
+#   prefixes           - liste med prefix-objekter:
+#     prefix.network   - nettverksadresse (f.eks. "1.2.3.0")
+#     prefix.mask      - prefixlengde (f.eks. "24")
+#     prefix.ge        - (valgfri) greater-equal (f.eks. 24)
+#     prefix.le        - (valgfri) less-equal (f.eks. 32)
+
+{% for prefix in prefixes %}
+ip ip-prefix {{ list_name }} index {{ loop.index * 10 }} permit {{ prefix.network }} {{ prefix.mask }}{% if prefix.ge is defined %} greater-equal {{ prefix.ge }}{% endif %}{% if prefix.le is defined %} less-equal {{ prefix.le }}{% endif %}
+
+{% endfor %}

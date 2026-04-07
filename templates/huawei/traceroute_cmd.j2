@@ -1,0 +1,10 @@
+{# Dynamisk traceroute-kommando for Huawei VRP #}
+{# Brukes av Nornir tasks for å bygge riktig kommando #}
+{#                                                      #}
+{# Forventede variabler:                               #}
+{#   target      - destinasjons-IP eller hostname       #}
+{#   source_ip   - kilde-IP på routeren                 #}
+{#   vrf         - (valgfri) VRF-navn (f.eks. internet) #}
+{#   max_hops    - (valgfri) maks TTL, standard 15      #}
+{#   verbose     - (valgfri) verbose output, standard false #}
+traceroute ip {{ target }} source {{ source_ip }}{% if vrf is defined %} vpn-instance {{ vrf }}{% endif %} ttl 1 {{ max_hops | default(15) }}{% if verbose | default(false) %} verbose{% endif %}
