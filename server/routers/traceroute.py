@@ -357,8 +357,6 @@ LOCATION_MAP = {
 
 
 def _hop_status(ms: float) -> str:
-    if ms < 20:
-        return "good"
     if ms < 50:
         return "good"
     if ms < 80:

@@ -621,7 +621,6 @@ body {
 .status-badge.ok   { background: var(--ok-bg);   color: var(--ok);   }
 
 .score-pill {
-  display: inline-block;
   width: 36px;
   height: 36px;
   border-radius: 50%;
