@@ -31,7 +31,15 @@ ACTIONS = {
 
 
 def run(interval: int = 300):
-    model = PPO.load("ml/models/bgp_ppo_agent")
+    model_path = "ml/models/bgp_ppo_agent"
+    try:
+        model = PPO.load(model_path)
+    except FileNotFoundError:
+        logger.error(
+            f"❌ Modell ikke funnet: {model_path}.zip\n"
+            "   Tren modellen først: python ml/agent/train.py"
+        )
+        sys.exit(1)
     logger.info("✅ PPO-modell lastet")
 
     while True:

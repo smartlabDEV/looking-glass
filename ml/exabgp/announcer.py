@@ -8,13 +8,19 @@ HIGH LOCAL_PREF = foretrekkes!
 """
 
 import logging
+import os
 import sys
 
 logger = logging.getLogger(__name__)
 
-# TODO: Fyll inn dine faktiske next-hops!
-NIX_NEXT_HOP = "193.156.x.x"    # Din NIX-peer next-hop
-TELIA_NEXT_HOP = "80.91.x.x"    # Din Telia-transit next-hop
+# Next-hop adresser leses fra miljøvariabler slik at produksjonsverdier
+# ikke hardkodes i kildekoden.
+# Sett f.eks. i docker-compose.yml:
+#   environment:
+#     NIX_NEXT_HOP: "193.156.x.x"
+#     TELIA_NEXT_HOP: "80.91.x.x"
+NIX_NEXT_HOP = os.environ.get("NIX_NEXT_HOP", "")       # TODO: sett NIX_NEXT_HOP
+TELIA_NEXT_HOP = os.environ.get("TELIA_NEXT_HOP", "")   # TODO: sett TELIA_NEXT_HOP
 
 # Prefixer vi styrer (topp-destinasjoner)
 # Hentes ideelt fra NetFlow — hvilke prefixer bruker mest transit?
@@ -29,6 +35,11 @@ MANAGED_PREFIXES = [
 
 def _announce(prefix: str, next_hop: str, local_pref: int):
     """Send BGP announcement via ExaBGP stdout API"""
+    if not next_hop:
+        logger.error(
+            "next_hop er ikke konfigurert — sett NIX_NEXT_HOP / TELIA_NEXT_HOP"
+        )
+        return
     cmd = (
         f"announce route {prefix} "
         f"next-hop {next_hop} "

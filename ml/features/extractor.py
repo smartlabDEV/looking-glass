@@ -8,15 +8,22 @@ Returnerer numpy array klar for PPO-agenten.
 
 import datetime
 import logging
+import os
 
 import numpy as np
 
 logger = logging.getLogger(__name__)
 
-# TODO: Fyll inn dine verdier
-SMOKEPING_RRD_TELIA = "/smokeping/telia/steam.rrd"
-SMOKEPING_RRD_NIX = "/smokeping/nix/steam.rrd"
-DB_DSN = "postgresql://user:pass@db:5432/lookingglass"
+# Konfigurasjon leses fra miljøvariabler — ikke hardkode credentials i kildekoden.
+# Sett disse i docker-compose.yml eller .env:
+#   SMOKEPING_RRD_TELIA=/smokeping/telia/steam.rrd
+#   SMOKEPING_RRD_NIX=/smokeping/nix/steam.rrd
+#   DB_DSN=postgresql://user:pass@db:5432/lookingglass
+SMOKEPING_RRD_TELIA = os.environ.get(
+    "SMOKEPING_RRD_TELIA", "/smokeping/telia/steam.rrd"
+)
+SMOKEPING_RRD_NIX = os.environ.get("SMOKEPING_RRD_NIX", "/smokeping/nix/steam.rrd")
+DB_DSN = os.environ.get("DB_DSN", "")  # TODO: sett DB_DSN i miljøvariabler
 
 
 async def get_current_state() -> np.ndarray:

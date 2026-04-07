@@ -37,10 +37,26 @@ class BGPRoutingEnv(gym.Env):
     def __init__(self):
         super().__init__()
 
-        # 12 state-variabler
+        # 12 state-variabler — øvre grenser per variabel:
+        # [transit_cost, nix_util, telia_lat, nix_lat,
+        #  total_gbps, transit_gbps, nix_gbps,
+        #  hour, weekday, lat_delta, nix_loss, telia_loss]
         self.observation_space = gym.spaces.Box(
             low=np.zeros(12),
-            high=np.array([100, 100, 500, 500, 100, 100, 100, 23, 6, 50, 100, 100]),
+            high=np.array([
+                100,   # transit_cost_per_mbit (kr/Mbit)
+                100,   # nix_utilization_pct   (%)
+                500,   # telia_latency_ms       (ms)
+                500,   # nix_latency_ms         (ms)
+                100,   # total_traffic_gbps     (Gbps)
+                100,   # transit_traffic_gbps   (Gbps)
+                100,   # nix_traffic_gbps       (Gbps)
+                23,    # hour_of_day            (0-23)
+                6,     # day_of_week            (0-6)
+                50,    # telia_latency_delta    (ms/30min)
+                100,   # nix_packet_loss_pct    (%)
+                100,   # telia_packet_loss_pct  (%)
+            ]),
             dtype=np.float32,
         )
 
