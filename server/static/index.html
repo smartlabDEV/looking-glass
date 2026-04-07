@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="no">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>🔭 Looking Glass – Nett-reise for vanlig folk</title>
+  <link rel="stylesheet" href="/static/style.css" />
+  <meta name="description" content="Utforsk veien dine datapakker tar fra deg til de tjenestene du elsker." />
+</head>
+<body>
+  <header class="site-header">
+    <div class="header-inner">
+      <div class="logo">
+        <span class="logo-icon">🔭</span>
+        <div class="logo-text">
+          <span class="logo-title">Looking Glass</span>
+          <span class="logo-sub">for vanlig folk</span>
+        </div>
+      </div>
+      <div class="header-right">
+        <span class="badge-ai">🧠 AI-drevet</span>
+      </div>
+    </div>
+  </header>
+
+  <!-- Kilde-velger (alltid synlig) -->
+  <div class="source-bar" id="sourceBar">
+    <div class="source-bar-inner">
+      <span class="source-bar-label">📡 Test fra:</span>
+      <div class="source-tabs" id="sourceTabs">
+        <!-- Fylles av app.js -->
+      </div>
+    </div>
+  </div>
+
+  <!-- Tabs -->
+  <nav class="main-nav">
+    <button class="nav-tab active" data-tab="traceroute">🔭 Nett-reise</button>
+    <button class="nav-tab" data-tab="compare">📊 Sammenlign</button>
+    <button class="nav-tab" data-tab="ai">🧠 AI Anbefaling</button>
+  </nav>
+
+  <main class="main-content">
+
+    <!-- =================== TAB: Nett-reise =================== -->
+    <div class="tab-panel active" id="tab-traceroute">
+      <div class="panel-header">
+        <h2>🔭 Nett-reise</h2>
+        <p class="panel-desc">Velg en server nedenfor og se nøyaktig hvilken vei dine datapakker tar fra deg til serveren – hopp for hopp.</p>
+      </div>
+
+      <!-- Server-velger -->
+      <div class="server-grid" id="serverGrid">
+        <!-- Fylles av app.js -->
+        <div class="loading-pulse">Laster servere…</div>
+      </div>
+
+      <!-- Traceroute-visning -->
+      <div class="traceroute-panel" id="traceroutePanel" style="display:none;">
+        <div class="traceroute-header">
+          <div class="tr-target-info" id="trTargetInfo"></div>
+          <button class="btn-secondary" id="btnNewTrace">← Velg ny server</button>
+        </div>
+        <div class="traceroute-container" id="tracerouteContainer">
+          <!-- Fylles av lookingglass.js -->
+        </div>
+        <div class="report-card-section" id="reportCardSection" style="display:none;">
+          <button class="btn-primary" id="btnGenerateReport">📋 Generer rapport-kort</button>
+        </div>
+        <div id="reportCard" class="report-card" style="display:none;"></div>
+      </div>
+    </div>
+
+    <!-- =================== TAB: Sammenlign =================== -->
+    <div class="tab-panel" id="tab-compare">
+      <div class="panel-header">
+        <h2>📊 Sammenlign forbindelser</h2>
+        <p class="panel-desc">Se ping, jitter og pakketap til alle servere i én oversikt. Finn flaskehalser i nettverket ditt.</p>
+      </div>
+
+      <div class="compare-controls">
+        <button class="btn-primary" id="btnRunAll">🚀 Test alle servere</button>
+        <span class="compare-hint">Tester <span id="compareSource">…</span> mot alle servere</span>
+      </div>
+
+      <div id="compareResults" class="compare-results" style="display:none;">
+        <div class="score-cards" id="scoreCards"></div>
+        <div class="results-table-wrapper">
+          <table class="results-table" id="resultsTable">
+            <thead>
+              <tr>
+                <th>Server</th>
+                <th>Ping</th>
+                <th>Jitter</th>
+                <th>Pakketap</th>
+                <th>Score</th>
+                <th>Vurdering</th>
+              </tr>
+            </thead>
+            <tbody id="resultsBody"></tbody>
+          </table>
+        </div>
+      </div>
+      <div class="compare-loading" id="compareLoading" style="display:none;">
+        <div class="spinner"></div>
+        <p>Tester alle servere…</p>
+      </div>
+    </div>
+
+    <!-- =================== TAB: AI =================== -->
+    <div class="tab-panel" id="tab-ai">
+      <div class="panel-header">
+        <h2>🧠 AI Rute-Anbefaling</h2>
+        <p class="panel-desc">Vår AI-modell analyserer tidspunkt, historiske målinger og nettverkstopologi for å anbefale best kilde.</p>
+      </div>
+
+      <div class="ai-config">
+        <div class="ai-config-group">
+          <label>Brukstilfelle</label>
+          <div class="use-case-btns">
+            <button class="use-case-btn active" data-case="gaming">🎮 Gaming</button>
+            <button class="use-case-btn" data-case="streaming">📺 Streaming</button>
+            <button class="use-case-btn" data-case="work">💼 Jobb</button>
+          </div>
+        </div>
+        <div class="ai-config-group">
+          <label>Sammenlign kilde A</label>
+          <select id="aiSourceA" class="ai-select">
+            <option value="local">🏠 Min egen PC</option>
+            <option value="heimnett_cgnat" selected>🌐 Heimnett CGNAT</option>
+            <option value="fastip">⚡ FastIP.no</option>
+          </select>
+        </div>
+        <div class="ai-config-group">
+          <label>Sammenlign kilde B</label>
+          <select id="aiSourceB" class="ai-select">
+            <option value="local">🏠 Min egen PC</option>
+            <option value="heimnett_cgnat">🌐 Heimnett CGNAT</option>
+            <option value="fastip" selected>⚡ FastIP.no</option>
+          </select>
+        </div>
+        <button class="btn-primary btn-ai-run" id="btnAiRun">🧠 Analyser</button>
+      </div>
+
+      <div id="aiResult" class="ai-result" style="display:none;"></div>
+    </div>
+
+  </main>
+
+  <!-- Hop-detalj modal -->
+  <div class="modal-overlay" id="modalOverlay" style="display:none;">
+    <div class="modal" id="hopModal">
+      <button class="modal-close" id="modalClose">✕</button>
+      <div id="modalContent"></div>
+    </div>
+  </div>
+
+  <footer class="site-footer">
+    <p>🔭 Looking Glass for vanlig folk &mdash; Open source &mdash; Mock-data for demo</p>
+    <p class="footer-small">Alle IP-adresser er fiktive eller obfuskerte av personvernhensyn.</p>
+  </footer>
+
+  <script src="/static/app.js"></script>
+  <script src="/static/lookingglass.js"></script>
+</body>
+</html>
