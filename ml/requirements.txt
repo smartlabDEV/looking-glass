@@ -1,7 +1,7 @@
 # RL-agent (PPO)
 stable-baselines3==2.3.0
 gymnasium==0.29.1
-torch==2.2.0               # PyTorch (CPU holder fint!)
+torch==2.6.0               # PyTorch (CPU holder fint!)
 
 # SmokePing integrasjon
 rrdtool==0.1.1
